@@ -1,0 +1,28 @@
+services:
+
+  app:
+    build: .
+    container_name: compose-app
+    ports:
+      - "3001:3000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_NAME: myapp
+    depends_on:
+      - db
+
+  db:
+    image: postgres:17
+    container_name: compose-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: myapp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
